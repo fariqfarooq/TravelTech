@@ -18,9 +18,20 @@ export const createTour = async(req,res)=>{
 }
 
 export const getTours = async(req,res)=>{
+    const {page} =req.query;
     try {
-        const tours = await TourModal.find();
-        res.status(200).json(tours)
+        // const tours = await TourModal.find();
+        // res.status(200).json(tours)
+        const limit = 6;
+        const skip = (Number(page)-1)*limit;
+        const total = await TourModal.countDocuments({});
+        const tours = await TourModal.find().limit(limit).skip(skip);
+        res.json({
+            data : tours,
+            currentPage : Number(page),
+            totalTours : total,
+            numberOfPages : Math.ceil(total/limit)
+        })
     } catch (error) {
         res.status(404).json({message:"Something went wrong"});
     }
@@ -91,4 +102,72 @@ export const updateTour = async(req,res)=>{
     catch (error) {
         res.status(404).json({message:"Something went wrong"}); 
     }
+};
+
+export const getToursBySearch = async(req,res)=>{
+      const { searchQuery } = req.query;
+      try {
+        const title = new RegExp(searchQuery,"i");
+        const tours = await TourModal.find({title});
+        res.json(tours);
+      } catch (error) {
+        res.status(404).json({message:"Something went wrong"});
+        console.log(error); 
+      }
+
+}
+
+export const getToursByTag = async(req,res)=>{
+    const { tag } = req.params;
+    try {
+     const tours = await TourModal.find({tags:{$in : tag}});
+      res.json(tours);
+    } catch (error) {
+      res.status(404).json({message:"Something went wrong"});
+      console.log(error); 
+    }
+
+}
+
+export const getRelativeTours = async(req,res)=>{
+    const tags= req.body;
+    try {
+     const tours = await TourModal.find({tags:{$in : tags}});
+      res.json(tours);
+    } catch (error) {
+      res.status(404).json({message:"Something went wrong"});
+      console.log(error); 
+    }
+
+}
+
+export const likeTours = async (req,res)=>{
+    const {id} = req.params;
+
+   try {
+    if(!req.userId){
+        return res.json({message:"User Not Authenticated"});
+    }
+   
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({message:'Tour does not exist'});
+    }
+
+    const tour = await TourModal.findById(id);
+
+    const index = tour.likes.findIndex((id)=> id === String(req.userId));
+
+    if(index===-1){
+        tour.likes.push(req.userId)
+    }else{
+      tour.likes=  tour.likes.filter((id)=> id !== String(req.userId))
+    }
+
+    const updatedTour = await TourModal.findByIdAndUpdate(id,tour,{new:true});
+
+    res.status(200).json(updatedTour);
+   } catch (error) {
+    res.status(404).json({message: error.message});
+    
+   }
 }

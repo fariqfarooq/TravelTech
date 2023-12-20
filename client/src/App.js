@@ -14,6 +14,8 @@ import SingleTour from './pages/SingleTour';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute'
 import NotFound from './pages/NotFound';
+import TagTour from './pages/TagTour';
+
 
 
 
@@ -36,6 +38,8 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/tours/search' element={<Home />} />
+        <Route path='/tours/tag/:tag' element={<TagTour/>} />
         <Route path='/addTour' element={
         <PrivateRoute>
             <AddEditTour/>
