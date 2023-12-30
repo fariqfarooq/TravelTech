@@ -25,7 +25,7 @@ const RelatedTours = ({relatedTours,tourId}) => {
             {relatedTours.length > 1 && <h4>Related Tours</h4>}
             <MDBRow className='row-cols-1 row-cols-md-3 g-4'>
             {relatedTours.filter((item)=> item._id !== tourId).splice(0,3).map((item)=>(
-                <MDBCol>
+                <MDBCol >
                     <MDBCard>
                         <Link to={`/tour/${item._id}`}>
                          <MDBCardImage 
