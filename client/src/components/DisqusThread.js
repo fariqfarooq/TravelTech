@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SHORTNAME = 'tourtokashmir';
-const WEBSITE_URL = 'http://localhost:3030';
+const SHORTNAME = 'traveltech';
+const WEBSITE_URL = 'http://localhost:3000';
 
 function renderDisqus() {
   if (window.DISQUS === undefined) {

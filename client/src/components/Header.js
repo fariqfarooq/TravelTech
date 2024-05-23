@@ -53,7 +53,7 @@ const Header = () => {
    <MDBNavbar fixed='top' expand='lg'  style={{backgroundColor:'#f0e6ea'}}>
      <MDBContainer>
         <MDBNavbarBrand href='/' style={{color:'#606080',fontWeight:"600",fontSize:'22px'}}>
-            TourToKashmir
+            TravelTech
         </MDBNavbarBrand>
        
         <MDBNavbarToggler

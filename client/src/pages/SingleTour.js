@@ -79,7 +79,7 @@ const SingleTour = () => {
        
 
         </MDBCard>
-        <DisqusThread id={id} title={tour.title} path={`/tour/${id}`} />
+        <DisqusThread id={id} title={tour?.title} path={`/tour/${id}`} />
     </MDBContainer>
    </>
      
